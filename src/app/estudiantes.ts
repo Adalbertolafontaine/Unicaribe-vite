@@ -1,0 +1,4 @@
+export const Estudiantes = [
+    {nombre:'Alberto Lafontaine',	email:'joaquin.lafontaine@unicaribe.edu.do',	telefono:'',	'FGC-101':'SI',	'FGC-102':'SI',	'FGC-103':'SI',	'ADE-101':'SI',	'FGC-104':'SI',	'FGC-105':'SI',	'FGC-106':'SI',	'ING-101':'SI',	'FGC-107':'SI',	'FGC-108':'SI',	'DMF-209':'SI',	'QUI-400':'SI',	'MTI-200':'SI',	'FGC-109':'SI',	'FGC-110':'SI',	'MTI-300':'SI',	'DMF-210':'SI',	'MAT-241':'SI',	'ING-102':'NO',	'ING-103':'NO',	'INF-215':'SI',	'MAT-242':'SI',	'ING-105':'SI',	'ING-104':'NO',	'INF-222':'SI',	'INF-221':'SI',	'TIC-408':'NO',	'IND-101':'NO',	'INF-437':'SI',	'ISW-301':'SI',	'ISW-321':'SI',	'TIC-402':'SI',	'IND-404':'NO',	'IND-314':'NO',	'IND-324':'NO',	'IND-325':'NO',	'IND-332':'NO',	'IND-334':'NO',	'IND-335':'NO',	'IND-333':'NO',	'IND-412':'NO',	'IND-405':'NO',	'IND-401':'NO',	'IND-403':'NO',	'IND-413':'NO',	'IND-431':'NO',	'IND-402':'NO',	'IND-414':'NO',	'FGC-111':'NO',	'IND-421':'NO',	'IND-423':'NO',	'IND-432':'NO',	'IND-600':'NO',}
+
+]

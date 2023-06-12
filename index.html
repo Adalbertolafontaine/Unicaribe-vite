@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/"
+          >Ingeniería en Datos e Inteligencia Organizacional</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ms-auto">
+            <a href="#" class="nav-link logged-out" id="googleLogin"
+              >Iniciar Sección <span class="icon-google2"></span
+            ></a>
+
+            <a class="nav-link logged-in" href="#" id="NombreSeccion"></a>
+            <a
+              class="nav-link logged-in"
+              href="#"
+              id="informacion"
+              data-bs-toggle="modal"
+              data-bs-target="#signinModal"
+              >Información</a
+            >
+            <a class="nav-link logged-in" href="#" id="logout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid bd-gutter mt-3 my-md-4 bd-layout">
+      <aside class="bd-sidebar">
+        <form action="" id="FMenviar" class="row">
+          <div class="col">
+            <div class="form-check form-check-inline">
+              <input
+                class="btn-check"
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio3"
+                value="aprobada"
+              />
+              <label class="btn btn-outline-success" for="inlineRadio3"
+                >Aprobadas (<span id="Caprobadas"></span>)</label
+              >
+            </div>
+          </div>
+          <div class="col form-check form-check-inline">
+            <input
+              class="btn-check"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio2"
+              value="pendiente"
+            />
+            <label class="btn btn-outline-danger" for="inlineRadio2"
+              >Pendientes (<span id="Cpendientes"></span>)</label
+            >
+          </div>
+          <div class="col form-check form-check-inline">
+            <input
+              class="btn-check"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio1"
+              value="todas"
+              checked
+            />
+            <label class="btn btn-outline-secondary" for="inlineRadio1"
+              >Todas (<span id="Ctodas"></span>)</label
+            >
+          </div>
+        </form>
+      </aside>
+      <div class="p-2">
+        <h4 class="text-center">
+          Cuatrimestres completos hasta el <span id="cuatrimesteA"></span>
+        </h4>
+      </div>
+      <main class="bd-main order-1">
+        <div id="cuerpo" class="row"></div>
+      </main>
+    </div>
+    <div  class="container-fluid" >
+      <figure class="container">
+        <div id="container"></div>
+        <p class="highcharts-description">
+          Las materias selectivas ELECTIVAS del octavo y decimo cuatrimestre no
+          estan entre los nodos al tener como prerrequisito a los cuatrimestres
+          previos a las mismas.
+        </p>
+      </figure>
+    </div>
+    <div
+      class="modal fade"
+      id="signinModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalSignin"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Registro estudiante</h3>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="FMregistro">
+              <label for="email">Email</label>
+              <input
+                type="text"
+                id="login-email"
+                class="form-control mb-3"
+                placeholder="correo UNICARIBE"
+              />
+              <label for="nombre">Nombre:</label>
+              <input
+                type="text"
+                id="nombre"
+                class="form-control mb-3"
+                placeholder="Nombre"
+                disabled
+              />
+              <label for="telefono">Teléfono:</label>
+              <input
+                type="text"
+                id="telefono"
+                class="form-control mb-3"
+                placeholder="Número de télefono"
+              />
+              <button
+                type="submit"
+                class="btn btn-success w-100 mb-4"
+                data-bs-dismiss="modal"
+              >
+                Actualizar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="infoModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Estudiantes disponibles
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div id="Dpendinte" class="modal-header"></div>
+          <div class="modal-body" id="listaEstudiantes"></div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
