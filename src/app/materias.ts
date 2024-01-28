@@ -8,22 +8,26 @@
     }[]
  */
 import { Grafico } from "./diagrama.js";
-let bloqueadas:{[x:string]:any} = {};
+let bloqueadas: Asignaturas = {};
 let cuatrimestres: {
   [x: string]: { cantidad: number; aprobadas: number; completada: boolean };
 } = {};
 let materias_aprobadas = 0;
 
 let relaciones: any[] = [];
-let nodos: any = {};
-export const materias: {
-  [x: string]: {
-    asignatura: string;
-    creditos: number;
-    pre?: string;
-    semestre: number;
-  };
-} = {
+let nodos: { [x: string]: string } = {};
+
+interface Materia {
+  asignatura: string;
+  creditos: number;
+  pre?: string;
+  semestre: number;
+}
+
+interface Asignaturas {
+  [x: string]: Materia;
+}
+export const materias: Asignaturas = {
   "ADE-101": {
     asignatura: "ADMINISTRACION I",
     creditos: 3,
@@ -350,7 +354,7 @@ export const Materias = () => {
 
   Object.keys(materias).map((codigo) => {
     {
-      let i = materias[codigo];
+      let i: Materia = materias[codigo];
       let temp_relaciones = [];
       let c = i.semestre;
       let pre = "";
@@ -414,7 +418,7 @@ export const Materias = () => {
   });
 };
 
-export const validacion = (datos:any) => {
+export const validacion = (datos: any) => {
   let aprobadas: string[] = [];
   materias_aprobadas = 0;
   const materia = datos.data();
@@ -423,12 +427,15 @@ export const validacion = (datos:any) => {
     cuatrimestres[c]["aprobadas"] = 0;
   });
 
-  (document.getElementById("telefono") as HTMLInputElement).value = materia["telefono"] || "";
-  (document.getElementById("nombre") as HTMLInputElement).value = materia["nombre"] || "";
-  (document.getElementById("login-email") as HTMLInputElement).value = materia["email"] || "";
+  (document.getElementById("telefono") as HTMLInputElement).value =
+    materia["telefono"] || "";
+  (document.getElementById("nombre") as HTMLInputElement).value =
+    materia["nombre"] || "";
+  (document.getElementById("login-email") as HTMLInputElement).value =
+    materia["email"] || "";
 
   //Recoorrer materias materrias del DB
-  let completados:number[] = [];
+  let completados: number[] = [];
   let cuatrimesteA: number = 0;
 
   Object.keys(materia).map((m) => {
@@ -444,7 +451,7 @@ export const validacion = (datos:any) => {
       document.getElementById(`Dbt_p_${m}`)!.style.display = "none";
       aprobadas.push(m);
       nodos[materias[m].asignatura] = "aprobadas";
-      let s:number = materias[m].semestre;
+      let s: number = materias[m].semestre;
       cuatrimestres[`dc${s}`]["aprobadas"]++;
 
       if (
@@ -464,15 +471,26 @@ export const validacion = (datos:any) => {
 
   document.getElementById("cuatrimesteA")!.innerHTML = cuatrimesteA.toString();
 
-  document.getElementById("Caprobadas")!.innerHTML = materias_aprobadas.toString();
-  document.getElementById("Cpendientes")!.innerHTML =
-    (Object.keys(materias).length - materias_aprobadas).toString();
+  document.getElementById("Caprobadas")!.innerHTML =
+    materias_aprobadas.toString();
+  document.getElementById("Cpendientes")!.innerHTML = (
+    Object.keys(materias).length - materias_aprobadas
+  ).toString();
 
-  Object.keys(bloqueadas).map((codigo) => {
+  Object.keys(bloqueadas).map((codigo: string) => {
     let a = document.getElementById(codigo)!.className;
     let i = bloqueadas[codigo];
+    let validar = false;
+    if (i.pre) {
+      if (i.pre.includes(",")) {
+        let t = i.pre.split(",");
+        validar = t.every((x) => aprobadas.includes(x));
+      } else {
+        validar = aprobadas.includes(i.pre);
+      }
+    }
 
-    if (aprobadas.includes(i.pre) && a.includes("bloqueada")) {
+    if (validar && a.includes("bloqueada")) {
       document.getElementById(codigo)!.classList.remove("bloqueada");
       document.getElementById(codigo)!.classList.add("pendiente");
       document.getElementById(`Dbt_p_${codigo}`)!.style.display = "";
@@ -480,16 +498,32 @@ export const validacion = (datos:any) => {
       nodos[materias[codigo].asignatura] = "pendiente";
     }
   });
+
+
   let nf = relaciones.filter((x) => {
-    if (nodos[x[0]] !== "aprobadas" && nodos[x[1]] !== "aprobadas") return x;
+    let v = nodos[x[1]] !== "aprobadas" || !x[1];
+    if (nodos[x[0]] !== "aprobadas" && v) return x;
   });
-  
-  Grafico(nf );
+
+  let p = Object.keys(nodos).filter((x: any) => nodos[x] === "pendiente").filter((x: any) => nf.every(y=>y[0]!==x && y[1]!==x)).map((x: any) => {return [x,,0.5]});
+
+  nf = nf.concat(p);
+  ;
+
+
+  Grafico(nf);
 };
 
-const filtros = document.getElementsByName("inlineRadioOptions") as unknown as HTMLInputElement[];
+const filtros = document.getElementsByName(
+  "inlineRadioOptions"
+) as unknown as HTMLInputElement[];
 
-const apagar = (tipo:string, div:string, cantidad:number, aprobadas:number) => {
+const apagar = (
+  tipo: string,
+  div: string,
+  cantidad: number,
+  aprobadas: number
+) => {
   let valor = "";
 
   switch (tipo) {
@@ -509,7 +543,9 @@ for (let i = 0; i < filtros.length; i++) {
   filtros[i].addEventListener("change", (_e) => {
     if (filtros[i].checked) {
       let v = filtros[i].value;
-      let asignaturas = document.getElementsByClassName("asignaturas") as unknown as HTMLAllCollection;
+      let asignaturas = document.getElementsByClassName(
+        "asignaturas"
+      ) as unknown as HTMLAllCollection;
       Object.keys(cuatrimestres).map((cuatrimeste) => {
         apagar(
           v,

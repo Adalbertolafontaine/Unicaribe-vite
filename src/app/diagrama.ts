@@ -10,7 +10,7 @@ Exporting(Highcharts)
 const Grafico = (data: any) => {
   Highcharts.chart("container", {
     title: {
-      text: "Materias Pendientes",
+      text: "Materias Pendientes con Prequisitos",
     },
     accessibility: {
       point: {
